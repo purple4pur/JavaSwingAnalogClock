@@ -55,8 +55,8 @@ public class App extends JFrame {
 class Dial extends JPanel {
     int r; // 表盘半径
     final double radDelta = Math.toRadians(30); // 30°
-    final Stroke boldStroke = new BasicStroke(2);
-    final Stroke regularStroke = new BasicStroke(1);
+    final Stroke boldStroke = new BasicStroke(2.2f);
+    final Stroke regularStroke = new BasicStroke(1f);
 
     public Dial(int radius) {
         r = radius;
@@ -106,8 +106,7 @@ class Pointer extends JPanel {
     double minute = 0; // 0 ~ 60
     int second = 0;    // 0 ~ 60
     final double radDelta = Math.toRadians(6); // 6°
-    final Stroke boldStroke = new BasicStroke(2);
-    final Stroke regularStroke = new BasicStroke(1);
+    final Stroke pointerStroke = new BasicStroke(2.6f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
 
     public Pointer(int hourLength, int minuteLength, int secondLength) {
         hourLen = hourLength;
@@ -127,7 +126,7 @@ class Pointer extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(142, 130); // 窗口中心 (?)
-        g2d.setStroke(boldStroke);
+        g2d.setStroke(pointerStroke);
 
         // 时针
         g2d.setColor(Color.RED);
