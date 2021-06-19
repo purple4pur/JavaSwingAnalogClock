@@ -88,11 +88,11 @@ class Dial extends JPanel {
 }
 
 // 指针
-class Pointer extends JPanel {
+class Pointer extends JPanel implements Runnable {
     int hourLen, minLen, secLen;
     double hour = 0; // 0 ~ 60
     double minute = 0; // 0 ~ 60
-    double second = 0; // 0 ~ 60
+    int second = 0; // 0 ~ 60
     final double radDelta = Math.toRadians(6); // 6°
     final Stroke boldStroke = new BasicStroke(2);
     final Stroke regularStroke = new BasicStroke(1);
@@ -101,6 +101,8 @@ class Pointer extends JPanel {
         hourLen = hourLength;
         minLen = minuteLength;
         secLen = secondLength;
+        Thread t = new Thread(this);
+        t.start();
     }
 
     public void setTime(int hour, int minute, int second) {
@@ -140,5 +142,32 @@ class Pointer extends JPanel {
             (int) (secLen * Math.sin(radDelta * second)),
             (int) (-secLen * Math.cos(radDelta * second))
         );
+    }
+
+    void nextSecond() {
+        second += 1;
+        if (second >= 60) {
+            second = 0;
+        }
+
+        minute += 1.0/60.0;
+        if (minute >= 60) {
+            minute = 0;
+        }
+
+        hour += 1.0/60.0/60.0;
+        if (hour >= 60) {
+            hour = 0;
+        }
+    }
+
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(1000); // 1s
+            } catch (Exception ex) {}
+            nextSecond();
+            repaint();
+        }
     }
 }
