@@ -7,8 +7,6 @@ import java.time.*;
 public class App extends JFrame {
     public static void main(String[] args) {
         new App();
-        LocalTime t = LocalTime.now(); // 当前时间
-        System.out.println(t);
     }
 
     final int width = 300;
