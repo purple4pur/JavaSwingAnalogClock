@@ -42,6 +42,14 @@ public class App extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+
+        while (true) {
+            try {
+                Thread.sleep(1000); // 1s
+            } catch (Exception ex) {}
+            pointer.nextSecond();
+            mainPanel.repaint();
+        }
     }
 }
 
@@ -56,7 +64,8 @@ class Dial extends JPanel {
         r = radius;
     }
 
-    public void paint(Graphics g) {
+    @Override
+    public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(142, 130); // ?
 
@@ -88,7 +97,7 @@ class Dial extends JPanel {
 }
 
 // 指针
-class Pointer extends JPanel implements Runnable {
+class Pointer extends JPanel {
     int hourLen, minLen, secLen;
     double hour = 0; // 0 ~ 60
     double minute = 0; // 0 ~ 60
@@ -101,17 +110,18 @@ class Pointer extends JPanel implements Runnable {
         hourLen = hourLength;
         minLen = minuteLength;
         secLen = secondLength;
-        Thread t = new Thread(this);
-        t.start();
     }
 
     public void setTime(int hour, int minute, int second) {
         this.second = second;
-        this.minute = minute + this.second/60;
-        this.hour = (hour + this.minute/60) * 5;
+        this.minute = minute + this.second/60.0;
+        this.hour = (hour + this.minute/60.0) * 5.0;
     }
 
-    public void paint(Graphics g) {
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g); // 清除上次显示
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(142, 130);
         g2d.setStroke(boldStroke);
@@ -144,7 +154,7 @@ class Pointer extends JPanel implements Runnable {
         );
     }
 
-    void nextSecond() {
+    public void nextSecond() {
         second += 1;
         if (second >= 60) {
             second = 0;
@@ -158,16 +168,6 @@ class Pointer extends JPanel implements Runnable {
         hour += 1.0/60.0/60.0;
         if (hour >= 60) {
             hour = 0;
-        }
-    }
-
-    public void run() {
-        while (true) {
-            try {
-                Thread.sleep(1000); // 1s
-            } catch (Exception ex) {}
-            nextSecond();
-            repaint();
         }
     }
 }
