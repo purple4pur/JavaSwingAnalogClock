@@ -1,7 +1,9 @@
+// https://blog.csdn.net/Tc_To_Top/article/details/46740667
+
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
- 
+
 public class CsdnClock extends JFrame {
     public CsdnClock() {
         ClockPaint cp = new ClockPaint(20, 20, 70);
@@ -16,7 +18,7 @@ public class CsdnClock extends JFrame {
         new CsdnClock();
     }
 }
- 
+
 class ClockPaint extends JPanel implements Runnable {
     int x, y, r;
     int hour, minute, second; //时，分，秒
@@ -33,32 +35,32 @@ class ClockPaint extends JPanel implements Runnable {
         Thread t = new Thread(this);
         t.start();
     }
- 
+
     public void paint(Graphics g) {
         super.paint(g);
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, r * 3, r * 3);
         g.setColor(Color.BLACK);
         g.drawOval(x, y, r * 2, r * 2);
- 
+
         //秒针
         g.setColor(Color.GREEN);
         int x1 = (int)((r - 10) * Math.sin(rad * second));
         int y1 = (int)((r - 10) * Math.cos(rad * second));
         g.drawLine(x + r, y + r, x + r + x1, y + r - y1);
- 
+
         //分针
         g.setColor(Color.BLUE);
         x1 = (int)((r - r / 2.5) * Math.sin(rad * minute));
         y1 = (int)((r - r / 2.5) * Math.cos(rad * minute));
         g.drawLine(x + r, y + r, x + r + x1, y + r - y1);
- 
+
         //时针
         g.setColor(Color.RED);
         x1 = (int)((r - r / 1.5) * Math.sin(rad * hour));
         y1 = (int)((r - r / 1.5) * Math.cos(rad * hour));
         g.drawLine(x + r, y + r, x + r + x1, y + r - y1);
- 
+
         //数字
         g.setColor(Color.BLACK);
         int d = 28;
@@ -68,7 +70,7 @@ class ClockPaint extends JPanel implements Runnable {
             g.drawString(i + "", x + r + x1 - 4, x + r - y1 + 5);
             d += 30;
         }
- 
+
         //刻度线
         d = 0;
         for (int i = 0; i < 60; i++) {
@@ -94,7 +96,7 @@ class ClockPaint extends JPanel implements Runnable {
                 Thread.sleep(1000); //休眠一秒
             }
             catch (Exception ex) {
- 
+
             }
             second += 6; //每一秒，秒针动6度
             if (second == 60 || second == 120 || second == 180 || second == 240 || second == 300) {

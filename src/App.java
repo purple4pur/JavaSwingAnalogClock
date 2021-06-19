@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import java.time.*;
- 
+
 public class App extends JFrame {
     public static void main(String[] args) {
         new App();
