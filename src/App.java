@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
 import java.time.*;
 
@@ -45,6 +44,23 @@ class Dial extends JPanel {
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(142, 130); // ?
+
+        Stroke boldStroke = new BasicStroke(2);
+        Stroke regularStroke = new BasicStroke(1);
+        g2d.setStroke(boldStroke);
         g2d.drawOval(-r, -r, r*2, r*2);
+        
+        int len;
+        for (int i = 0; i < 60; ++i) {
+            if (i % 5 == 0) {
+                g2d.setStroke(boldStroke);
+                len = 12;
+            } else {
+                g2d.setStroke(regularStroke);
+                len = 6;
+            }
+            g2d.drawLine(0, 2-r, 0, len-r);
+            g2d.rotate(Math.toRadians(6));
+        }
     }
 }
