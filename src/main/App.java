@@ -11,7 +11,8 @@ public class App extends JFrame {
         System.out.println(t);
     }
 
-    int width, height;
+    final int width = 300;
+    final int height = 300;
     int hour, minute, second;
 
     JPanel dial;
@@ -23,8 +24,6 @@ public class App extends JFrame {
         hour = time.getHour() % 12;
         minute = time.getMinute();
         second = time.getSecond();
-
-        width = height = 300;
 
         dial = new Dial(120);
         add(dial);
@@ -39,6 +38,8 @@ public class App extends JFrame {
 
 class Dial extends JPanel {
     int r;
+    final double radDelta = Math.toRadians(30); // 30°
+
     public Dial(int radius) {
         r = radius;
     }
@@ -56,13 +57,22 @@ class Dial extends JPanel {
         for (int i = 0; i < 60; ++i) {
             if (i % 5 == 0) {
                 g2d.setStroke(boldStroke);
-                len = 12;
+                len = 10;
             } else {
                 g2d.setStroke(regularStroke);
                 len = 6;
             }
             g2d.drawLine(0, 2-r, 0, len-r);
             g2d.rotate(Math.toRadians(6));
+        }
+
+        g2d.setFont(new Font(null, Font.BOLD, 14));
+        for (int i = 1; i <= 12; ++i) {
+            g2d.drawString(
+                String.valueOf(i),
+                (int) (0.84 * r * Math.sin(radDelta * i) - 4),
+                (int) (0.84 * -r * Math.cos(radDelta * i) + 5)
+            );
         }
     }
 }
