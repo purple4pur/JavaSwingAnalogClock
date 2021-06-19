@@ -22,8 +22,8 @@ public class App extends JFrame {
     public App() {
         super("时钟");
 
-        LocalTime time = LocalTime.now();
-        hour = time.getHour() % 12;
+        LocalTime time = LocalTime.now(); // 当前时间
+        hour = time.getHour() % 12; // 只取 0 ~ 11
         minute = time.getMinute();
         second = time.getSecond();
 
@@ -48,14 +48,14 @@ public class App extends JFrame {
                 Thread.sleep(1000); // 1s
             } catch (Exception ex) {}
             pointer.nextSecond();
-            mainPanel.repaint();
+            mainPanel.repaint(); // 重绘整个窗口
         }
     }
 }
 
 // 表盘
 class Dial extends JPanel {
-    int r;
+    int r; // 表盘半径
     final double radDelta = Math.toRadians(30); // 30°
     final Stroke boldStroke = new BasicStroke(2);
     final Stroke regularStroke = new BasicStroke(1);
@@ -67,16 +67,20 @@ class Dial extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(142, 130); // ?
+        g2d.translate(142, 130); // 窗口中心 (?)
 
+        // 外围圆形
         g2d.setStroke(boldStroke);
         g2d.drawOval(-r, -r, r*2, r*2);
-        
+
+        // 刻度线
         int len;
         for (int i = 0; i < 60; ++i) {
+            // 长刻度线
             if (i % 5 == 0) {
                 g2d.setStroke(boldStroke);
                 len = 10;
+            // 短刻度线
             } else {
                 g2d.setStroke(regularStroke);
                 len = 6;
@@ -85,11 +89,12 @@ class Dial extends JPanel {
             g2d.rotate(Math.toRadians(6));
         }
 
+        // 数字
         g2d.setFont(new Font(null, Font.BOLD, 14));
         for (int i = 1; i <= 12; ++i) {
             g2d.drawString(
                 String.valueOf(i),
-                (int) (0.84 * r * Math.sin(radDelta * i) - 4),
+                (int) (0.84 * r * Math.sin(radDelta * i) - 4), // 带位置修正
                 (int) (0.84 * -r * Math.cos(radDelta * i) + 5)
             );
         }
@@ -99,9 +104,9 @@ class Dial extends JPanel {
 // 指针
 class Pointer extends JPanel {
     int hourLen, minLen, secLen;
-    double hour = 0; // 0 ~ 60
+    double hour = 0;   // 0 ~ 60
     double minute = 0; // 0 ~ 60
-    int second = 0; // 0 ~ 60
+    int second = 0;    // 0 ~ 60
     final double radDelta = Math.toRadians(6); // 6°
     final Stroke boldStroke = new BasicStroke(2);
     final Stroke regularStroke = new BasicStroke(1);
@@ -123,7 +128,7 @@ class Pointer extends JPanel {
         super.paintComponent(g); // 清除上次显示
 
         Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(142, 130);
+        g2d.translate(142, 130); // 窗口中心 (?)
         g2d.setStroke(boldStroke);
 
         // 时针
