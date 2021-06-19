@@ -65,6 +65,9 @@ class Dial extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(
+            RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON
+        ); // 开启抗锯齿
         g2d.translate(142, 130); // 窗口中心 (?)
 
         // 外围圆形
@@ -125,6 +128,9 @@ class Pointer extends JPanel {
         super.paintComponent(g); // 清除上次显示
 
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(
+            RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON
+        ); // 开启抗锯齿
         g2d.translate(142, 130); // 窗口中心 (?)
         g2d.setStroke(pointerStroke);
 
