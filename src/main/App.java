@@ -15,7 +15,8 @@ public class App extends JFrame {
     final int height = 300;
     int hour, minute, second;
 
-    JPanel dial;
+    Dial dial;
+    Pointer pointer;
 
     public App() {
         super("时钟");
@@ -26,6 +27,9 @@ public class App extends JFrame {
         second = time.getSecond();
 
         dial = new Dial(120);
+        pointer = new Pointer(80, 100, 110);
+        pointer.setTime(hour, minute, second);
+
         add(dial);
 
         setSize(width, height);
@@ -36,6 +40,7 @@ public class App extends JFrame {
     }
 }
 
+// 表盘
 class Dial extends JPanel {
     int r;
     final double radDelta = Math.toRadians(30); // 30°
@@ -74,5 +79,25 @@ class Dial extends JPanel {
                 (int) (0.84 * -r * Math.cos(radDelta * i) + 5)
             );
         }
+    }
+}
+
+// 指针
+class Pointer extends JPanel {
+    int hourLen, minLen, secLen;
+    int hour = 0;
+    int minute = 0;
+    int second = 0;
+
+    public Pointer(int hourLength, int minuteLength, int secondLength) {
+        hourLen = hourLength;
+        minLen = minuteLength;
+        secLen = secondLength;
+    }
+
+    public void setTime(int hour, int minute, int second) {
+        this.hour = hour;
+        this.minute = minute;
+        this.second = second;
     }
 }
